@@ -1,11 +1,10 @@
-var Base = require('mixin-class')(require('./model'));
-
-module.exports = function(componentFactory, buildDialogElement) {
+module.exports = function(componentFactory, options, buildDialogElement) {
     var cache = {};
     var activeDialogs = [];
-    Base.mix({
-        buildDialogElement: buildDialogElement
-    });
+    if (!buildDialogElement) {
+        buildDialogElement = require('./lib/build-bootstrap3-dialog-element');
+    }
+    var Base = require('mixin-class')(require('./lib/model')(buildDialogElement(options || {})));
 
     var removeFromActiveDialogs = function(dialog) {
         var index = activeDialogs.indexOf(dialog);
